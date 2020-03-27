@@ -20,13 +20,13 @@ puzzle = [ ['D','E','Y','E','S','H','A','D','O','W','N','N','B','H'],
 wordbank = ['PERFUME','HAIRSTYLE','CURLINGIRON','MOUSTACHE', 'BEARD','EYESHADOW','SAUNA','STYLIST','BRUSH','PERMANENT','SHAMPOO','WAXING','GOATEE','BLOWDRYER','MAKEUP','TRIM','RAZOR','HAIRCUT','COMB','SPA']
 
 puzzle2 = [ ['Y','H','Y','A','H'],
-            ['A','Z','E','Z','G'], 
+            ['A','Z','E','Z','G'],
             ['T','C','Y','Y','W']
         ]
 
 wordbank2 = ['YAT','HEY','YEY']
 
-puzzle3 = [ ['D','G','O','O','D','D','O','D','G','O','O','D','D','O'], 
+puzzle3 = [ ['D','G','O','O','D','D','O','D','G','O','O','D','D','O'],
             ['O','D','O','O','G','G','G','D','O','D','G','O','G','G'],
             ['O','G','O','G','D','O','O','D','G','O','O','D','D','D'],
             ['D','G','D','O','O','O','G','G','O','O','G','D','G','O'],
@@ -38,5 +38,5 @@ puzzle3 = [ ['D','G','O','O','D','D','O','D','G','O','O','D','D','O'],
 wordbank3 =['DOG']
 
 if __name__ == '__main__':
-    showpuzzle.showpuzzle(puzzle3, wordbank3)
-    solvepuzzle.solvethepuzzle(puzzle3, wordbank3)
+    showpuzzle.showpuzzle(puzzle, wordbank)
+    solvepuzzle.solvethepuzzle(puzzle, wordbank)

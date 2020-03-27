@@ -1,120 +1,70 @@
 import showpuzzle
+import collections
+import copy
 
 class solvethepuzzle:
     def __init__(self, puzzle, words):
         self.puzzle = puzzle
-        self.words = words
-        self.first = []
-        for i in self.words:
-            self.first.append(i[0])
-        self.position = {}
-        for p in range(len(self.puzzle)):
-            self.position[p] = []
-        self.solvepuzzle()
-        
-    def solvepuzzle(self):
-        for i in range(len(self.puzzle)):
-            for p in range(len(self.puzzle[i])):
-                if self.puzzle[i][p] in self.first:
-                    self.possiblesolve(i, p, [x for x in self.words if x[0] == self.puzzle[i][p]], self.puzzle)
-        showpuzzle.showsolvedpuzzle(self.position, self.puzzle, self.words)
-        
-    def possiblesolve(self, i, p, words, puzzle):
+        self.first = self.get_first(words)
+        self.last = self.get_last(words)
+        self.directions = [(0, 1), (1, 0), (1, -1), (1, 1)]
+        self.strokes = {(0, 1):"-", (1, 0):"|", (1, -1):"/", (1, 1):"\\"}
+        self.solve()
+        showpuzzle.showpuzzle(self.puzzle)
+
+    def dfs(self, direction, word, puzzle, curr, position, i):
+        if curr == word:
+            self.puzzle = puzzle
+            return
+        if len(curr) >= len(word):
+            return
+        row, col = position
+        max_row = len(puzzle)-1
+        max_col = len(puzzle[0])-1
+        if row < 0 or col < 0 or row > max_row or col > max_col:
+            return
+        curr_letter = self.puzzle[row][col]
+        curr += curr_letter
+        if curr != word[:len(curr)] and curr != word[len(curr)+1:]:
+            return
+        puzzle[row][col] = self.strokes[direction]
+        dir_row, dir_col = direction
+        new_position = (row + dir_row, col + dir_col)
+        self.dfs(direction, word, puzzle, curr, new_position, i)
+
+    def solve(self):
+        for row in range(len(self.puzzle)):
+            for col in range(len(self.puzzle[row])):
+                letter = self.puzzle[row][col]
+                position = (row, col)
+                if letter in self.first:
+                    self.to_dfs(letter, position, "first")
+                if letter in self.last:
+                    self.to_dfs(letter, position, "last")
+
+    def to_dfs(self, letter, position, method):
+        if method == "first":
+            words = self.first[letter]
+        else:
+            words = self.last[letter]
+        i = 0
+        row, col = position
+        temp_puzzle = copy.deepcopy(self.puzzle)
         for word in words:
-            top = len(self.puzzle[:i+1]) - len(word)
-            topletters = ''
-            if top >= 0:
-                for letter in range(len(word)):
-                    if self.puzzle[i-letter][p] == word[letter]:
-                        topletters += word[letter]
-                        if topletters == word:
-                            for z in range(len(word)):
-                                self.position[i-z].append([p, '|'])
-                            self.words.remove(word)
-                            self.first.remove(word[0])
-                             
-        
-            left = len(self.puzzle[i][:p+1]) - len(word)
-            leftletters = ''
-            if left >= 0:
-                for letter in range(len(word)):
-                    if self.puzzle[i][p-letter] == word[letter]:
-                        leftletters += word[letter]
-                        if leftletters == word:
-                            for z in range(len(word)):
-                                self.position[i].append([p-z, '-'])
-                            self.words.pop(self.words.index(word))
-                            self.first.remove(word[0])
-                             
-        
-            right = len(self.puzzle[i][p:]) - len(word)
-            rightletters = ''
-            if right >= 0:
-                for letter in range(len(word)):
-                    if self.puzzle[i][p+letter] == word[letter]:
-                        rightletters += word[letter]
-                        if rightletters == word:
-                            for z in range(len(word)):
-                                self.position[i].append([p+z, '-'])
-                            self.words.pop(self.words.index(word))
-                            self.first.remove(word[0])
-                            
-        
-            bottom = len(self.puzzle[i:]) - len(word)
-            bottomletters = ''
-            if bottom >= 0:
-                for letter in range(len(word)):
-                    if self.puzzle[i+letter][p] == word[letter]:
-                        bottomletters += word[letter]
-                        if bottomletters == word:
-                            for z in range(len(word)):
-                                    self.position[i+z].append([p, '|'])
-                            self.words.pop(self.words.index(word))
-                            self.first.remove(word[0])
-                            
-            topleftletters = ''
-            if left >= 0 and top >= 0:
-                for letter in range(len(word)):
-                    if self.puzzle[i-letter][p-letter] == word[letter]:
-                        topleftletters += word[letter]
-                        if topleftletters == word:
-                            for z in range(len(word)):
-                                self.position[i-z].append([p-z, '\\'])
-                            self.words.pop(self.words.index(word))
-                            self.first.remove(word[0])
-                        
-            toprightletters = ''
-            if right >= 0 and top >= 0:
-                for letter in range(len(word)):
-                    if self.puzzle[i-letter][p+letter] == word[letter]:
-                        toprightletters += word[letter]
-                        if toprightletters == word:
-                            for z in range(len(word)):
-                                self.position[i-z].append([p+z, '/'])
-                            self.words.pop(self.words.index(word))
-                            self.first.remove(word[0])
-            
-            bottomleftletters = ''
-            if left >= 0 and bottom >= 0:
-                for letter in range(len(word)):
-                    if self.puzzle[i+letter][p-letter] == word[letter]:
-                        bottomleftletters += word[letter]
-                        if bottomleftletters == word:
-                            for z in range(len(word)):
-                                self.position[i+z].append([p-z, '/'])
-                            self.words.pop(self.words.index(word))
-                            self.first.remove(word[0])
-            
-            bottomrightletters = ''
-            if right >= 0 and bottom >= 0:
-                for letter in range(len(word)):
-                    if self.puzzle[i+letter][p+letter] == word[letter]:
-                        bottomrightletters += word[letter]
-                        if bottomrightletters == word:
-                            for z in range(len(word)):
-                                self.position[i+z].append([p+z, '\\'])
-                            self.words.pop(self.words.index(word))
-                            self.first.remove(word[0])
-               
-        return
-        
+            for direction in self.directions:
+                self.dfs(direction, word, temp_puzzle, "", position, i)
+                i+=1
+
+    def get_first(self, words):
+        first_letters = collections.defaultdict(list)
+        for word in words:
+            first = word[0]
+            first_letters[first].append(word)
+        return first_letters
+
+    def get_last(self, words):
+        last_letters = collections.defaultdict(list)
+        for word in words:
+            last = word[-1]
+            last_letters[last].append(word)
+        return last_letters

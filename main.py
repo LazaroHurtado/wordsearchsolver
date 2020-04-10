@@ -1,5 +1,5 @@
-import showpuzzle
-import solvepuzzle
+import show_puzzle
+import solve_puzzle
 
 puzzle = [ ['D','E','Y','E','S','H','A','D','O','W','N','N','B','H'],
            ['T','U','C','R','I','A','H','O','H','D','M','A','L','P'],
@@ -15,14 +15,14 @@ puzzle = [ ['D','E','Y','E','S','H','A','D','O','W','N','N','B','H'],
            ['T','H','D','M','I','R','T','N','S','P','N','O','Y','M'],
            ['C','P','E','R','M','A','N','E','N','T','I','O','S','P'],
            ['A','I','C','U','R','L','I','N','G','I','R','O','N','T']
-        ]
+          ]
 
 wordbank = ['PERFUME','HAIRSTYLE','CURLINGIRON','MOUSTACHE', 'BEARD','EYESHADOW','SAUNA','STYLIST','BRUSH','PERMANENT','SHAMPOO','WAXING','GOATEE','BLOWDRYER','MAKEUP','TRIM','RAZOR','HAIRCUT','COMB','SPA']
 
 puzzle2 = [ ['Y','H','Y','A','H'],
             ['A','Z','E','Z','G'],
             ['T','C','Y','Y','W']
-        ]
+          ]
 
 wordbank2 = ['YAT','HEY','YEY']
 
@@ -33,10 +33,10 @@ puzzle3 = [ ['D','G','O','O','D','D','O','D','G','O','O','D','D','O'],
             ['O','G','D','G','O','G','D','G','O','G','G','O','G','D'],
             ['D','D','D','G','D','D','O','D','O','O','G','D','O','O'],
             ['O','D','G','O','G','G','D','O','O','G','G','O','O','D']
-        ]
+          ]
 
 wordbank3 =['DOG']
 
 if __name__ == '__main__':
-    showpuzzle.showpuzzle(puzzle, wordbank)
-    solvepuzzle.solvethepuzzle(puzzle, wordbank)
+    show_puzzle.show_puzzle(puzzle, wordbank)
+    solve_puzzle.solve_puzzle(puzzle, wordbank)

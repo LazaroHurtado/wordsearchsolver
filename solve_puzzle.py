@@ -1,23 +1,20 @@
-import showpuzzle
+from termcolor import colored
+import show_puzzle
 import collections
 import copy
 
-class solvethepuzzle:
+class solve_puzzle:
     def __init__(self, puzzle, words):
         self.puzzle = puzzle
         self.first = self.get_first(words)
         self.last = self.get_last(words)
         self.directions = [(0, 1), (1, 0), (1, -1), (1, 1)]
         self.solve()
-        showpuzzle.showpuzzle(self.puzzle)
+        show_puzzle.show_puzzle(self.puzzle)
 
     def dfs(self, direction, word, puzzle, curr, position, seen):
         if curr == word:
-            print(seen)
-            for location in seen:
-                row, col = location
-                self.puzzle[row][col] = (self.puzzle[row][col]).lower()
-            showpuzzle.showpuzzle(puzzle)
+            self.highlight(seen)
             return puzzle
         if len(curr) >= len(word):
             return
@@ -41,11 +38,10 @@ class solvethepuzzle:
         new_position = (row + dir_row, col + dir_col)
         self.dfs(direction, word, puzzle, curr, new_position, seen)
 
-    def remove_caps(self, locations):
-        print(locations)
+    def highlight(self, locations):
         for location in locations:
             row, col = location
-            #puzzle[row][col] = (puzzle[row][col]).upper()
+            self.puzzle[row][col] = colored((self.puzzle[row][col]), 'green')
         return
 
     def solve(self):

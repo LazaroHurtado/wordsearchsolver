@@ -1,4 +1,4 @@
-# Project Title
+# Word Search Solver
 
 Self solving word search puzzle with Depth First Search algorithm.
 
